@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# Some parts modified by me (John Oss) but it's mostly intact from Casey Muller's original.
+
 # This is a shared Makefile for building menuet apps. 
 # To use it, create a Makefile in your applications directory, set the name of the app, and include this file. 
 # For example:
@@ -88,10 +90,9 @@ release: $(ZIPFILE)
 	@echo name $${NAME}; \
 	read -p "Description (body)? " BODY; \
 	@echo body $${BODY}; \
-	# TODO: WIP
 	@echo curl -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" --data '{"tag_name":"$${VERSION}"}' https://api.github.com/repos/$(REPO)/releases
 
-IDENTIFIER ?= $(EXECUTABLE).menuet.caseymrm.github.com
+IDENTIFIER ?= $(EXECUTABLE).johnaoss.github.com
 
 $(PLIST):
 	@echo "Generating plist..."
