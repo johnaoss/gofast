@@ -1,16 +1,10 @@
-BUILD_PATH="GoFast.App/Contents/MacOS/gofast"
+APP=GoFast
+IDENTITY=Developer ID Application: TODO (AP2AEA9WAW)
+IDENTIFIER=gofast.johnaoss.github.com
 
-# TODO: Should build into the MacOS directory. May be worth making a separate package to create this
-# instead of a Makefile, but the Makefile seems easiest for now.
-# I thought mholt had a package for that, but I could be wrong.
+# Include the menuet specific Makefile
+include hack/menuet.mk
+
 .PHONY: test
 test:
 	@go test ./...
-
-.PHONY: build
-build: 
-	@go build -o ${BUILD_PATH}
-	@echo "Binary located at ${BUILD_PATH}"
-
-.PHONY: release
-release: test build
