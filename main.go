@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/caseymrm/menuet"
@@ -29,7 +30,19 @@ func Info(title, info string) menuet.Alert {
 func main() {
 	go helloClock()
 	app := menuet.App()
+
 	app.Name = "GoFast"
+
+	// No idea what label does.
 	app.Label = "Label"
+
+	// This stores preferences in the ~/Library/Preferences/{BUNDLEID}.plist
+	// Heavily cached, so removing the actual file won't necessarily remove it.
+	// Look at the Makefile for more info.
+	prefs := menuet.Defaults()
+	fmt.Println("The key for test:", prefs.String("test"))
+
+	// The main running of the application. As such every other process should
+	// be called by a given action on the menu bar, or somehow else.
 	app.RunApplication()
 }

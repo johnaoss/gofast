@@ -127,4 +127,4 @@ $(PLIST):
 
 .PHONY: sign
 sign: $(BINARY) $(PLIST)
-	codesign -f -s "$(IDENTITY)" $(ESCAPED_APP).app --deep
+	codesign -f -s "$(IDENTITY)" $(ESCAPED_APP).app --deep --timestamp
