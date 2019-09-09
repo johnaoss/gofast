@@ -66,13 +66,6 @@ func (f FileSystem) SupportDir() string {
 	return f.support
 }
 
-// ConfigDir returns the directory to be used for user preferences. This returns
-// the MacOS specific verison, and requires me to use the NSUserDefaults class
-// which I can'do right now.
-func (f FileSystem) ConfigDir() string {
-	return ""
-}
-
 // exists determines if a directory exists
 func exists(name string) bool {
 	if _, err := os.Stat(name); err != nil {
