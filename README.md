@@ -10,8 +10,7 @@ This was tested to work on macOS Catalina Beta (19A546d).
 
 # Roadmap
 
-Actually implement this project, and then also add macOS entitlements. If I have the money lying around,
-I may try to get this in the Mac App Store.
+Actually implement the project. Deciding on either using `fast.com` or the internal macOS network speeds, but that requires me to write some Objective-C which I'd rather not.
 
 # License
 
