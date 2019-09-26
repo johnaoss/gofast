@@ -7,12 +7,13 @@
 package fs
 
 import (
+	"fmt"
 	"os"
 )
 
 const (
-	support = "~/Library/Application Support/"
-	cache   = "~/Library/Caches/"
+	support = "/Library/Application Support/"
+	cache   = "/Library/Caches/"
 )
 
 // Eventually should create a file list like the stuff within the CRUX prt-get
@@ -24,46 +25,54 @@ const (
 // FileSystem is a struct that handles the file system relevant information about
 // a macOS specific application.
 type FileSystem struct {
+	// name the human-friendly name of the application
 	name    string
+	// id is the bundle identifier of the application. 
 	id      string
-	support string
-	cache   string
+	// SupportDirDir is the filepath of the Application SupportDir directory, 
+	// used for long-lasting files.
+	SupportDir string
+	// CacheDir is the filepath of the directory to be used for caching files.
+	CacheDir   string
+	// HomeDir is the home directory of the user
+	HomeDir string
 }
 
 // New returns a FileSystem. `name` should be the human-friendly name of the
 // application, and `id` should represent the bundle identifier.
-func New(name, id string) FileSystem {
-	return FileSystem{name: name, id: id}
-}
-
-// CacheDir returns a directory to be used for caching files.
-// Will panic if it cannot create the directory that should exist.
-// The directory will be in ~/Library/Caches/{ID}
-func (f FileSystem) CacheDir() string {
-	if f.cache != "" {
-		return f.cache
+func New(name, id string) (*FileSystem, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return nil, fmt.Errorf("failed to obtain user home dir: %w", err)
 	}
-	f.cache = cache + f.id
-	if !exists(f.cache) {
-		if err := os.Mkdir(f.cache, 755); err != nil {
-			panic(err)
+
+	f := FileSystem{
+		name: name,
+		id: id,
+		SupportDir: home + support + name + "/",
+		CacheDir: home + cache + id + "/",
+		HomeDir: home,
+	}
+
+	if !exists(f.CacheDir) {
+		if err := os.MkdirAll(f.CacheDir, 0755); err != nil {
+			return nil, fmt.Errorf("failed to make cache dir: %w", err)
 		}
 	}
-	return f.cache
-}
 
-// SupportDir returns the directory to be used for long-lasting files.
-func (f FileSystem) SupportDir() string {
-	if f.support != "" {
-		return f.support
-	}
-	f.support = support + f.name
-	if !exists(f.support) {
-		if err := os.Mkdir(f.support, 755); err != nil {
-			panic(err)
+	if !exists(f.SupportDir) {
+		if err := os.MkdirAll(f.SupportDir, 0755); err != nil {
+			return nil, fmt.Errorf("failed to make support dir: %w", err)
 		}
 	}
-	return f.support
+
+	return &f, nil
+}
+
+func (f FileSystem) TempFile(name string) (*os.File, error) {
+	filename := f.CacheDir + name
+	// TODO: Add to main list
+	return os.Create(filename)
 }
 
 // exists determines if a directory exists

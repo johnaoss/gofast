@@ -8,11 +8,12 @@ import (
 )
 
 // helloClock is the generic clock example from the menuet example.
+// todo: display icon for title, remove alert, add speedtest buttons.
 func helloClock() {
 	menuet.App().Alert(Info("Title", "Info"))
 	for {
 		menuet.App().SetMenuState(&menuet.MenuState{
-			Title: "Hello Nerd " + time.Now().Format(time.RFC3339),
+			Title: time.Now().Format(time.RFC3339),
 		})
 		time.Sleep(time.Second)
 	}
@@ -40,6 +41,8 @@ func main() {
 	// Heavily cached, so removing the actual file won't necessarily remove it.
 	// Look at the Makefile for more info.
 	prefs := menuet.Defaults()
+
+	// Todo: remove for debug.
 	fmt.Println("The key for test:", prefs.String("test"))
 
 	// The main running of the application. As such every other process should

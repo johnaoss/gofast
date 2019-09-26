@@ -49,6 +49,10 @@ ifndef APP
   $(error APP variable must be defined, e.g. APP=Hello World)
 endif
 
+ifndef IDENTIFIER
+	$(error IDENTIFIER variable must be defined, e.g. IDENTIFIER=whyawake.caseymrm.github.com)
+endif
+
 space :=
 space +=
 ESCAPED_APP = $(subst $(space),\$(space),$(APP))
@@ -77,6 +81,7 @@ clean:
 .PHONY: zip
 zip: $(ZIPFILE)
 
+# TODO: Test to see if release works.
 .PHONY: releases
 releases:
 	@curl -s -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" https://api.github.com/repos/$(REPO)/releases
@@ -125,6 +130,7 @@ $(PLIST):
 	@echo '</dict>' >> $(PLIST)
 	@echo '</plist>' >> $(PLIST)
 
+# todo: check if code sign works once I have Apple Developer ID.
 .PHONY: sign
 sign: $(BINARY) $(PLIST)
 	codesign -f -s "$(IDENTITY)" $(ESCAPED_APP).app --deep --timestamp
