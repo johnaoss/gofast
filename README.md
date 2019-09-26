@@ -14,7 +14,7 @@ Actually implement the project. Deciding on either using `fast.com` or the inter
 
 # License
 
-Please check [[LICENSE.md]] for information about the license.
+Please check [LICENSE.md](LICENSE.md) for information about the license.
 
 # Acknowledgements
 
