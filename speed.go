@@ -26,7 +26,6 @@ type Result struct {
 }
 
 func initClient() *Client {
-
 	f := fast.New()
 
 	var err error
@@ -40,7 +39,7 @@ func initClient() *Client {
 		log.Print("Failed to get urls:", err)
 		return nil
 	}
-
+	
 	return &Client{
 		urls: urls,
 		f: f,
