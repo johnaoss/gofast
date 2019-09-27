@@ -2,40 +2,60 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/caseymrm/menuet"
 )
 
-// helloClock is the generic clock example from the menuet example.
-// todo: display icon for title, remove alert, add speedtest buttons.
-func helloClock() {
-	menuet.App().Alert(Info("Title", "Info"))
-	for {
-		menuet.App().SetMenuState(&menuet.MenuState{
-			Title: time.Now().Format(time.RFC3339),
-		})
-		time.Sleep(time.Second)
+// basestate shows a default icon for the application.
+// todo: add speedtest buttons, as well as historic data.
+func basestate() {
+	// menuet.App().Alert(Info("Title", "Info"))
+	menuet.App().SetMenuState(&menuet.MenuState{
+		Image: "icon.icns",
+	})
+	menuet.App().MenuChanged()
+}
+
+
+// // Info returns a generic informative alert.
+// func Info(title, info string) menuet.Alert {
+// 	return menuet.Alert{
+// 		MessageText:     title,
+// 		InformativeText: info,
+// 		Buttons:         []string{"Okay"},
+// 	}
+// }
+
+// menu returns the default menu items.
+// todo: proper ones.
+func menu() []menuet.MenuItem {
+	return []menuet.MenuItem{
+		{
+			Type: menuet.Regular,
+			Text: "Example Menu Button",
+			FontSize: 14,
+			FontWeight: menuet.WeightHeavy,
+			State: false,
+			Clicked: menutext,
+		},
 	}
 }
 
-// Info returns a generic informative alert.
-func Info(title, info string) menuet.Alert {
-	return menuet.Alert{
-		MessageText:     title,
-		InformativeText: info,
-		Buttons:         []string{"Okay"},
-	}
+func menutext() {
+	menuet.App().SetMenuState(&menuet.MenuState{
+		Title: "example text",
+	})
+	menuet.App().MenuChanged()
 }
+
 
 func main() {
-	go helloClock()
+	go basestate()
+
 	app := menuet.App()
-
 	app.Name = "GoFast"
-
-	// No idea what label does.
-	app.Label = "Label"
+	app.Label = "com.github.com.johnaoss.gofast"
+	app.Children = menu
 
 	// This stores preferences in the ~/Library/Preferences/{BUNDLEID}.plist
 	// Heavily cached, so removing the actual file won't necessarily remove it.

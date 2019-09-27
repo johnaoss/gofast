@@ -4,42 +4,29 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Resources/Awake Eye.pdf</key>
-		<data>QIdNq4a5K2r9r91RwSm/AIiv5zs=</data>
-		<key>Resources/Eye.pdf</key>
-		<data>qGVi32AiprIxhFHR6bdRt1LcI9g=</data>
-		<key>Resources/Red Eye.pdf</key>
-		<data>MQ9NODu56VAVSaEJZpHKQIcaYNE=</data>
-		<key>Resources/icon.icns</key><data>ZKb73r3n5qviWA3KlLdHsp61+yA=</data>
+		<key>Resources/icon.icns</key>
+		<data>
+		l2oo8k5oDL8OoDPtM7WLHeocF5M=
+		</data>
+		<key>Resources/icon.svg</key>
+		<data>
+		nPDvSNcpDGoLTMZVzJOT8ZuNcjY=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Resources/Awake Eye.pdf</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			J9P09OuabgsCqFQtm2hFQZKj2enDMJxRnkGpcM8vH1Y=
-			</data>
-		</dict>
-		<key>Resources/Eye.pdf</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			vnu2zbDFM0hhQeTm13x7oHVAL7jyJfM8ka9oEagtzBI=
-			</data>
-		</dict>
-		<key>Resources/Red Eye.pdf</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			vo8ZV7sJkY9gurgQh8rpmRXtK2VPoV7aiS8DbBvT8qg=
-			</data>
-		</dict>
 		<key>Resources/icon.icns</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			zExCg0hRYZUf52AT2vyDQ+7KAou0o1++HdBQv6nv1Jo=
+			oETGwU7cbchroJzRCagoW4zmckwJucVl66Y9rZk0mWg=
+			</data>
+		</dict>
+		<key>Resources/icon.svg</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			NluRMlTsf4mt+7pe3Y+hb4c9SD/z5zn6D3NbYPpEZzs=
 			</data>
 		</dict>
 	</dict>
