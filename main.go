@@ -1,70 +1,102 @@
 package main
 
 import (
+	"context"
+	"time"
 	"fmt"
-
 	"github.com/caseymrm/menuet"
 )
 
-// basestate shows a default icon for the application.
-// todo: add speedtest buttons, as well as historic data.
-func basestate() {
-	// menuet.App().Alert(Info("Title", "Info"))
-	menuet.App().SetMenuState(&menuet.MenuState{
-		Image: "icon.icns",
-	})
-	menuet.App().MenuChanged()
-}
-
-
-// // Info returns a generic informative alert.
-// func Info(title, info string) menuet.Alert {
-// 	return menuet.Alert{
-// 		MessageText:     title,
-// 		InformativeText: info,
-// 		Buttons:         []string{"Okay"},
-// 	}
-// }
-
-// menu returns the default menu items.
+// mainMenu returns the default menu items.
 // todo: proper ones.
-func menu() []menuet.MenuItem {
+func mainMenu() []menuet.MenuItem {
 	return []menuet.MenuItem{
 		{
-			Type: menuet.Regular,
-			Text: "Example Menu Button",
-			FontSize: 14,
-			FontWeight: menuet.WeightHeavy,
-			State: false,
-			Clicked: menutext,
+			Text: "Go Fast",
+			FontWeight: menuet.WeightBold,
+		},
+		{
+			Type: menuet.Separator,
+		},
+		{
+			Text: "Run Test",
+			Clicked: checkSpeed,
+		},
+		{
+			Type: menuet.Separator,
+		},
+		{
+			Text: "History",
+			Clicked: placeholderAction,
 		},
 	}
 }
 
-func menutext() {
-	menuet.App().SetMenuState(&menuet.MenuState{
-		Title: "example text",
+// placeholderAction is an action that opens an alert when clicked.
+// This should be used as a placeHolder when behaviour is not yet ready.
+func placeholderAction() {
+	menuet.App().Alert(menuet.Alert{
+		MessageText: "This button is unimplemented",
+		InformativeText: "Please close this popup, and potentially open an issue on GitHub",
 	})
+}
+
+// this is currently spaghetti code, will fix
+func checkSpeed() {
+	menu := mainMenu()
+	menu[2].Clicked = nil
+
+	children := func() []menuet.MenuItem{
+		return menu
+	}
+	menuet.App().Children = children
+
+	// Makes menu look pretty when updating.
+	ctx, cancel := context.WithCancel(context.Background())
+	go func() {
+		var count int
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				menuet.App().Children = func() []menuet.MenuItem{
+					menu[2].Text = "Measuring."
+					for i := 0; i < count % 3; i++ {
+						menu[2].Text += "."
+					}
+					count++
+					return menu
+				}
+				menuet.App().MenuChanged()
+				time.Sleep(500 * time.Millisecond)	
+			}
+		}
+	}()
+
+	// Check results, then reset menu state
+	result := client.Measure()
+	cancel()
+	menuet.App().Children = mainMenu
 	menuet.App().MenuChanged()
+	menuet.App().Alert(menuet.Alert{
+		MessageText: fmt.Sprintf("Your internet speed is %.2f Mbps\n", result.Average/1000),
+		InformativeText: fmt.Sprintf("The fastest speed measured was %.2f Mbps, and the slowest recorded was %.2f Mbps", result.Max/1000, result.Min/1000),
+	})
+	
+	// TODO: Store alert to do history for it.
 }
 
 
 func main() {
-	go basestate()
-
 	app := menuet.App()
 	app.Name = "GoFast"
 	app.Label = "com.github.com.johnaoss.gofast"
-	app.Children = menu
-
-	// This stores preferences in the ~/Library/Preferences/{BUNDLEID}.plist
-	// Heavily cached, so removing the actual file won't necessarily remove it.
-	// Look at the Makefile for more info.
-	prefs := menuet.Defaults()
-
-	// Todo: remove for debug.
-	fmt.Println("The key for test:", prefs.String("test"))
-
+	app.Children = mainMenu
+	app.SetMenuState(&menuet.MenuState{
+		Image: "icon.icns",
+	})
+	
 	// The main running of the application. As such every other process should
 	// be called by a given action on the menu bar, or somehow else.
 	app.RunApplication()
