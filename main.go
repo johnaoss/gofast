@@ -10,6 +10,12 @@ import (
 // mainMenu returns the default menu items.
 // todo: proper ones.
 func mainMenu() []menuet.MenuItem {
+	speedfunc := checkSpeed
+	if !client.Ready() {
+		speedfunc = nil
+	} 
+
+
 	return []menuet.MenuItem{
 		{
 			Text: "Go Fast",
@@ -20,7 +26,7 @@ func mainMenu() []menuet.MenuItem {
 		},
 		{
 			Text: "Run Test",
-			Clicked: checkSpeed,
+			Clicked: speedfunc,
 		},
 		{
 			Type: menuet.Separator,

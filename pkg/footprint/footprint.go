@@ -29,6 +29,8 @@ type Footprint struct {
 
 	// file is the underlying file, may be nil depending on if this writes to
 	// disk or not.
+	// todo: determine how exactly to effectively sync the contents of this struct
+	// to the disk. this is a hard problem.
 	file *os.File
 
 	// mutex to allow concurrent access
