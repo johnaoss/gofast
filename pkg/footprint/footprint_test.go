@@ -2,8 +2,8 @@ package footprint_test
 
 import (
 	"io/ioutil"
-	"testing"
 	"os"
+	"testing"
 
 	"github.com/johnaoss/speedtest/pkg/footprint"
 )
