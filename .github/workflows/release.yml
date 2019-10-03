@@ -25,6 +25,15 @@ jobs:
       - name: Get dependencies
         run: go get -v -t -d ./...
   
+        # TODO
+      - name: Setup Keychain
+        run: |
+          security create-keychain -p <password> build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p <password> build.keychain
+          security set-key-partition-list -S apple-tool:,apple: -s -k actions build.keychain
+
+  
       - name: Build Application
         run: make zip 
             
