@@ -20,23 +20,33 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
         with:
+          # This is a workaround for the `closed` action for PRs.
           ref: refs/heads/${{ github.head_ref }}
 
       - name: Get dependencies
         run: go get -v -t -d ./...
+
+      - name: Prepare certificate
+        run: |
+          echo $MAC_CERT | base64 --decode > cert.p12
+        env:
+          MAC_CERT: ${{ secrets.MAC_CERT }}
   
-        # TODO
       - name: Setup Keychain
         run: |
-          security create-keychain -p <password> build.keychain
+          security create-keychain -p ${{ secrets.PASSWORD }} build.keychain
           security default-keychain -s build.keychain
-          security unlock-keychain -p <password> build.keychain
+          security unlock-keychain -p ${{ secrets.PASSWORD }} build.keychain
+          # I think this is insecure, but there's no real way I can do it otherwise.
+          # TODO: Maybe wrap this in a separate action that doesn't use logging.
+          security import cert.p12 -k build.keychain -t agg -f pkcs12 -P ${{ secrets.PASSWORD }}
           security set-key-partition-list -S apple-tool:,apple: -s -k actions build.keychain
-
   
-      - name: Build Application
-        run: make zip 
-            
+      - name: Sign Application
+        run: make sign 
+        env:
+          APPLE_ID: ${{ secrets.APPLE_CERT }}
+
       - name: Tag
         id: tag
         uses: K-Phoen/semver-release-action@master
