@@ -10,7 +10,7 @@ IDENTIFIER=gofast.johnaoss.github.com
 # To generate a new identity if you have none, launch XCode and navigate
 # 	to Preferences>Accounts and create one there.
 # Currently, I've stored my identity as an env var.
-IDENTITY=$(APPLE_CERT)
+IDENTITY=$(APPLE_ID)
 
 # The repo this is in (for releases)
 REPO=johnaoss/gofast
