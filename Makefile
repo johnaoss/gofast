@@ -13,7 +13,7 @@ IDENTIFIER=gofast.johnaoss.github.com
 IDENTITY=$(APPLE_CERT)
 
 # The repo this is in (for releases)
-REPO=johnaoss/gofast	
+REPO=johnaoss/gofast
 
 # Include the menuet specific Makefile
 include hack/menuet.mk
