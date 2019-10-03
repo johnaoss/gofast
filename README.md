@@ -1,7 +1,8 @@
 # gofast [![Actions Status](https://github.com/johnaoss/gofast/workflows/go-tests/badge.svg)](https://github.com/johnaoss/gofast/actions)
 
-
 Check your network specs from the menu bar.
+
+TODO: Add proper automated releases.
 
 # Building
 

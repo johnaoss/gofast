@@ -12,6 +12,9 @@ IDENTIFIER=gofast.johnaoss.github.com
 # Currently, I've stored my identity as an env var.
 IDENTITY=$(APPLE_CERT)
 
+# The repo this is in (for releases)
+REPO=johnaoss/gofast
+
 # Include the menuet specific Makefile
 include hack/menuet.mk
 
