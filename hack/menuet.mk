@@ -59,6 +59,7 @@ ESCAPED_APP = $(subst $(space),\$(space),$(APP))
 EXECUTABLE := $(shell echo $(subst $(space),,$(APP)) | tr '[:upper:]' '[:lower:]')
 BINARY = $(ESCAPED_APP).app/Contents/MacOS/$(EXECUTABLE)
 PLIST = $(ESCAPED_APP).app/Contents/Info.plist
+TRIMREPO := $(strip $(REPO))
 
 run: $(BINARY) $(PLIST)
 	@echo "Starting application"
@@ -84,18 +85,18 @@ zip: $(ZIPFILE)
 # TODO: Test to see if release works.
 .PHONY: releases
 releases:
-	@curl -s -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" https://api.github.com/repos/$(REPO)/releases
+	@curl -s -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" https://api.github.com/repos/$(TRIMREPO)/releases;
 
 .PHONY: release
 release: $(ZIPFILE)
-	curl -s -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" https://api.github.com/repos/$(REPO)/releases | grep name\"
+	curl -s -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" https://api.github.com/repos/$(TRIMREPO)/releases | grep name\"
 	@read -p "Version (tag_name)? " VERSION; \
-	@echo version $${VERSION}; \
-	read -p "Name (name)? " NAME; \
-	@echo name $${NAME}; \
-	read -p "Description (body)? " BODY; \
-	@echo body $${BODY}; \
-	@echo curl -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" --data '{"tag_name":"$${VERSION}"}' https://api.github.com/repos/$(REPO)/releases
+		echo version $$VERSION;
+	@read -p "Name (name)? " NAME; \
+		echo name $$NAME;
+	@read -p "Description (body)? " BODY; \
+		echo body $$BODY;
+	echo curl -H "Authorization: token $(GITHUB_ACCESS_TOKEN)" --data '{"tag_name":"$$VERSION", "name":$$NAME, "body":"$$BODY", "prerelease":true}' https://api.github.com/repos/$(TRIMREPO)/releases
 
 IDENTIFIER ?= $(EXECUTABLE).johnaoss.github.com
 
