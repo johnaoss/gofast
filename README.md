@@ -12,7 +12,9 @@ This was tested to work on macOS Catalina Beta (19A546d).
 
 # Roadmap
 
-Actually implement the project. Deciding on either using `fast.com` or the internal macOS network speeds, but that requires me to write some Objective-C which I'd rather not.
+Currently has the speedtest function as expected, still required to add historical analysis, as well as scheduled runs of the speedtest.
+
+I'd eventually like to hook into the os level features to get network speed, but I believe that requires me to write some Objective-C. 
 
 # License
 
