@@ -1,11 +1,12 @@
 package fs_test
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
-	"io/ioutil"
-	"github.com/johnaoss/speedtest/pkg/fs"
 	"testing"
+
+	"github.com/johnaoss/speedtest/fs"
 )
 
 func TestCacheWrite(t *testing.T) {
