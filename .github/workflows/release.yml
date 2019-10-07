@@ -40,7 +40,7 @@ jobs:
           # I think this is insecure, but there's no real way I can do it otherwise.
           # TODO: Maybe wrap this in a separate action that doesn't use logging.
           security import cert.p12 -k build.keychain -t agg -f pkcs12 -P ${{ secrets.PASSWORD }}
-          security set-key-partition-list -S apple-tool:,apple: -s -k actions build.keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k ${{ secrets.PASSWORD }} build.keychain
   
       - name: Sign Application
         run: make sign 
