@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/johnaoss/speedtest/pkg/footprint"
+	"github.com/johnaoss/speedtest/footprint"
 )
 
 var (

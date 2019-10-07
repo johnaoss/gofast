@@ -1,5 +1,5 @@
 // Package footprint maintains a footprint of all the files used in an
-// application. 
+// application.
 //
 // This allows centralized management of files, and eventually will allow a method
 // to remove all files associated with this program from a user's disk. Essentially
@@ -7,13 +7,13 @@
 package footprint
 
 import (
-	"io"
 	"bytes"
+	"fmt"
+	"io"
+	"os"
 	"path/filepath"
 	"sync"
-	"fmt"
-	"os"
-)	
+)
 
 const (
 	// default perms
@@ -50,8 +50,8 @@ func New(dir, filename string) (*Footprint, error) {
 
 	return &Footprint{
 		filename: file.Name(),
-		file: file,
-		files: make([]File, 0),
+		file:     file,
+		files:    make([]File, 0),
 	}, nil
 }
 
@@ -129,7 +129,7 @@ func (f *Footprint) getfile() (*os.File, error) {
 }
 
 // write outputs the representation of the file to an io.Writer.
-func (f *Footprint) write(w io.Writer) (error) {
+func (f *Footprint) write(w io.Writer) error {
 	b := new(bytes.Buffer)
 	for _, elem := range f.files {
 		writeLine(b, elem.Perms().String(), "root/root", elem.Path())
@@ -145,12 +145,12 @@ func (f *Footprint) write(w io.Writer) (error) {
 // writeline writes a tab-spaced line of text given a varadic number of inputs to
 // a given buffer. after all inputs are written, a newline will be appended.
 func writeLine(b *bytes.Buffer, inputs ...string) {
-	var size int 
+	var size int
 	for i := range inputs {
 		size += len(inputs[i])
 	}
 
-	if size > b.Cap() - b.Len() {
+	if size > b.Cap()-b.Len() {
 		b.Grow(size - b.Cap() + b.Len())
 	}
 

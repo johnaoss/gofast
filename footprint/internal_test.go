@@ -1,8 +1,8 @@
 package footprint
 
 import (
-	"testing"
 	"bytes"
+	"testing"
 )
 
 // TestWriteLine is a sanity check to see if the writes are done properly.
@@ -12,5 +12,5 @@ func TestWriteLine(t *testing.T) {
 	writeLine(b, "-rw-------", "root/root", "/tmp/gofast/test")
 	if b.String() != expected {
 		t.Error("Given:", b.String(), "Expected:", expected)
-	}	
+	}
 }
