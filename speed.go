@@ -1,8 +1,8 @@
 package main
 
 import (
-	"sort"
 	"log"
+	"sort"
 
 	"github.com/ddo/go-fast"
 )
@@ -12,18 +12,17 @@ var (
 )
 
 type Client struct {
-	f *fast.Fast
-	urls []string
+	f     *fast.Fast
+	urls  []string
 	ready bool
 }
 
 // Result is the data obtained from a speedtest.
 type Result struct {
-	Data []float64
+	Data    []float64
 	Average float64
-	Min float64
-	Max float64
-
+	Min     float64
+	Max     float64
 }
 
 func initClient() *Client {
@@ -40,10 +39,10 @@ func initClient() *Client {
 		log.Print("Failed to get urls:", err)
 		failed = true
 	}
-	
+
 	return &Client{
-		urls: urls,
-		f: f,
+		urls:  urls,
+		f:     f,
 		ready: !failed,
 	}
 }
@@ -62,7 +61,7 @@ func (c *Client) Measure() Result {
 			results = append(results, Kbps)
 		}
 	}()
-	
+
 	if err := c.f.Measure(c.urls, kbpsChan); err != nil {
 		log.Print("Failed to measure speed:", err)
 	}
@@ -75,10 +74,10 @@ func (c *Client) Measure() Result {
 	sort.Float64s(results)
 
 	return Result{
-		Data: results,
+		Data:    results,
 		Average: average,
-		Min: results[0],
-		Max: results[len(results)-1],
+		Min:     results[0],
+		Max:     results[len(results)-1],
 	}
 }
 

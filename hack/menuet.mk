@@ -61,9 +61,13 @@ BINARY = $(ESCAPED_APP).app/Contents/MacOS/$(EXECUTABLE)
 PLIST = $(ESCAPED_APP).app/Contents/Info.plist
 TRIMREPO := $(strip $(REPO))
 
-run: $(BINARY) $(PLIST)
+.PHONY: run
+run: build
 	@echo "Starting application"
 	@./$(BINARY)
+
+.PHONY: build
+build: $(BINARY) $(PLIST)
 
 SOURCEDIRS = $(abspath $(dir $(MAKEFILE_LIST)))
 SOURCES := $(shell find $(SOURCEDIRS) $(LIBDIRS) -name '*.go' -o -name '*.m' -o -name '*.h' -o -name '*.c' -o -name '*.mk' -o -name Makefile)

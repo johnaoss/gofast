@@ -1,12 +1,10 @@
 name: go-tests
 on: [push]
 jobs:
-
   build:
     name: Build
     runs-on: macOS-latest
     steps:
-
     - name: Set up Go 1.13
       uses: actions/setup-go@v1
       with:
@@ -20,7 +18,7 @@ jobs:
       run: go get -v -t -d ./...
 
     - name: Build
-      run: go build -v .
+      run: make build
 
     - name: Run Tests
       run: go test -v ./...
